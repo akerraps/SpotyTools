@@ -15,7 +15,16 @@ spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(cl
 
 
 def get_tracks(id):
-    playlist_info = spotify.playlist(id)
+    try:
+        playlist_info = spotify.playlist( "https://open.spotify.com/playlist/" + id)
+    except spotipy.exceptions.SpotifyException as e:
+        if 'Invalid base62 id' in str(e):
+            print(f"Error: Invalid playlist ID: {id}")
+            exit(1)
+        else:
+            print(f"Spotify Error: {str(e)}")
+            exit(1)
+
     tracks = playlist_info['tracks']
 
     all_tracks = tracks['items']
@@ -43,8 +52,9 @@ def get_tracks(id):
     return df
 
 def main():
-    playlist_id = "https://open.spotify.com/playlist/" + PLAYLIST_ID
+    playlist_id =PLAYLIST_ID
     tracks=get_tracks(playlist_id)
+    print(tracks)
     tracks.to_excel(OUTPUT, index=False)
 
 # Ejecutar la función principal
