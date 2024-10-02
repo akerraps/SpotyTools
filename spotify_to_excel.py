@@ -11,7 +11,18 @@ CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 OUTPUT = os.getenv('OUTPUT')
 PLAYLIST_ID = os.getenv('PLAYLIST_ID')
 
-spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id= CLIENT_ID, client_secret= CLIENT_SECRET))
+try:
+    spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(client_id= CLIENT_ID, client_secret= CLIENT_SECRET))
+except spotipy.oauth2.SpotifyOauthError as e:
+    if "No client_id" in str(e):
+        print("No client ID")
+        exit(1)
+    elif "No client_secret" in str(e):
+        print ("No client secret")
+        exit(1)
+    else:
+        print(f"Spotify Error: {str(e)}")
+        exit(1)
 
 
 def get_tracks(id):
@@ -54,8 +65,15 @@ def get_tracks(id):
 def main():
     playlist_id =PLAYLIST_ID
     tracks=get_tracks(playlist_id)
-    print(tracks)
-    tracks.to_excel(OUTPUT, index=False)
+    try:
+        tracks.to_excel(OUTPUT, index=False)
+    except OSError as e:
+        if "non-existent directory" in str(e):
+            print ("The direcotory doesn't exist")
+            exit(1)
+        else:
+            print(f"OS Error: {str(e)}")
+            exit(1)
 
 # Ejecutar la función principal
 if __name__ == "__main__":
