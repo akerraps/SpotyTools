@@ -69,7 +69,7 @@ def main():
         tracks.to_excel(OUTPUT, index=False)
     except OSError as e:
         if "non-existent directory" in str(e):
-            print ("The direcotory doesn't exist")
+            print ("The directory doesn't exist")
             exit(1)
         else:
             print(f"OS Error: {str(e)}")
