@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Playlist</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Spotify Playlist Songs</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Song Name</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Duration (ms)</th>
+                <th>Popularity</th>
+                <th>Added At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for track in tracks %}
+            <tr>
+                <td>{{ track['Song Name'] }}</td>
+                <td>{{ track['Artist'] }}</td>
+                <td>{{ track['Album'] }}</td>
+                <td>{{ track['Duration (ms)'] }}</td>
+                <td>{{ track['Popularity'] }}</td>
+                <td>{{ track['Added At'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
