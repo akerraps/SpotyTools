@@ -28,7 +28,7 @@ def get_user_spotify():
         return {'auth_url': None, 'spotify': spotify}
 
 
-def get_tracks_from_spotify(spotify, playlist_id):
+def get_tracks_from_playlist(spotify, playlist_id):
     try:
         playlist_info = spotify.playlist( "https://open.spotify.com/playlist/" + playlist_id)
     except spotipy.exceptions.SpotifyException as e:
@@ -48,9 +48,7 @@ def get_tracks_from_spotify(spotify, playlist_id):
             'Song Name': track['name'],
             'Artist': track['artists'][0]['name'],
             'Album': track['album']['name'],
-            'Duration': track['duration_ms'],
-            'Popularity': track['popularity'],
-            'Added At': item['added_at']
+            'Duration': track['duration_ms']
         }
         track_data.append(track_info)
 

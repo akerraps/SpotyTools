@@ -29,9 +29,7 @@
                 <th>Song Name</th>
                 <th>Artist</th>
                 <th>Album</th>
-                <th>Duration (ms)</th>
-                <th>Popularity</th>
-                <th>Added At</th>
+                <th>Duration</th>
             </tr>
         </thead>
         <tbody>
@@ -41,8 +39,6 @@
                 <td>{{ track['Artist'] }}</td>
                 <td>{{ track['Album'] }}</td>
                 <td>{{ (track['Duration'] // 60000) }}:{{ (track['Duration'] % 60000) // 1000 }}</td>
-                <td>{{ track['Popularity'] }}</td>
-                <td>{{ track['Added At'] }}</td>
             </tr>
             {% endfor %}
         </tbody>

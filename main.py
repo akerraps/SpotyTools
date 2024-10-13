@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, url_for
-from get_api import get_user_spotify, get_tracks_from_spotify  # Importamos la función correcta
+from get_api import get_user_spotify, get_tracks_from_playlist  # Importamos la función correcta
 from dotenv import load_dotenv
 import os
 
@@ -19,7 +19,7 @@ def index():
 
     if spotify:
         playlist_id = os.getenv('PLAYLIST_ID')  # Obtener el ID de la playlist del entorno
-        df = get_tracks_from_spotify(spotify, playlist_id)  # Obtener pistas usando el objeto spotify
+        df = get_tracks_from_playlist(spotify, playlist_id)  # Obtener pistas usando el objeto spotify
         tracks = df.to_dict(orient='records')  # Convertir a diccionario
         print('test')
         return render_template('index.html', tracks=tracks)
