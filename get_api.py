@@ -45,12 +45,26 @@ def get_tracks_from_playlist(spotify, playlist_id):
     for item in all_tracks:
         track = item['track']
         track_info = {
-            'Song Name': track['name'],
-            'Artist': track['artists'][0]['name'],
-            'Album': track['album']['name'],
-            'Duration': track['duration_ms']
+            'song_name': track['name'],
+            'artist': track['artists'][0]['name'],
+            'album': track['album']['name'],
+            'duration': track['duration_ms']
         }
         track_data.append(track_info)
 
     df = pd.DataFrame(track_data)
     return df
+
+def get_playlists (spotify):
+    playlist_general_info = spotify.current_user_playlists()
+    playlists=playlist_general_info['items']
+
+    playlist_data=[]
+    for item in playlists:
+        playlist_info={
+            'playlist_name': item['name'],
+            'playlist_id':item['id'],
+            'track_count':item['tracks']['total']
+        }
+        playlist_data.append(playlist_info)
+    return playlist_data

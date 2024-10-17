@@ -22,23 +22,21 @@
     </style>
 </head>
 <body>
-    <h1>Spotify Playlist Songs</h1>
+    <h1>Spotify Playlist</h1>
     <table>
         <thead>
             <tr>
-                <th>Song Name</th>
-                <th>Artist</th>
-                <th>Album</th>
-                <th>Duration</th>
+                <th>Playlist Name</th>
+                <th>Playlist ID</th>
+                <th>Track count</th>
             </tr>
         </thead>
         <tbody>
             {% for track in tracks %}
             <tr>
-                <td>{{ track['Song Name'] }}</td>
-                <td>{{ track['Artist'] }}</td>
-                <td>{{ track['Album'] }}</td>
-                <td>{{ (track['Duration'] // 60000) }}:{{ (track['Duration'] % 60000) // 1000 }}</td>
+                <td>{{ track['playlist_name'] }}</td>
+                <td>{{ track['playlist_id'] }}</td>
+                <td>{{ track['track_count'] }}</td>
             </tr>
             {% endfor %}
         </tbody>

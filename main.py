@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, url_for
-from get_api import get_user_spotify, get_tracks_from_playlist  # Importamos la función correcta
+from get_api import get_user_spotify, get_tracks_from_playlist, get_playlists  # Importamos la función correcta
 from dotenv import load_dotenv
 import os
 
@@ -21,11 +21,24 @@ def index():
         playlist_id = os.getenv('PLAYLIST_ID')  # Obtener el ID de la playlist del entorno
         df = get_tracks_from_playlist(spotify, playlist_id)  # Obtener pistas usando el objeto spotify
         tracks = df.to_dict(orient='records')  # Convertir a diccionario
-        print('test')
-        return render_template('index.html', tracks=tracks)
+        return render_template('show_tacks.html', tracks=tracks)
     else:
         return redirect(url_for('login'))
 
+@app.route('/playlists')
+def playlists():
+    auth_data = get_user_spotify()
+    if auth_data['auth_url']:
+        # Redirigir al usuario a Spotify para autenticarse
+        return redirect(auth_data['auth_url'])
+
+    spotify = auth_data['spotify']
+
+    if spotify:
+        playlists = get_playlists(spotify)
+        return render_template('show_playlists.html', tracks=playlists)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/callback')
 def callback():
