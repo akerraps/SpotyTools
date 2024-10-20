@@ -4,29 +4,28 @@ from dotenv import load_dotenv
 import os
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")  # Clave secreta para manejar sesiones
+app.secret_key = os.getenv("SECRET_KEY")
 load_dotenv()
 
 @app.route('/')
-def index():
+def login():
+    global spotify
     auth_data = get_user_spotify()
     if auth_data['auth_url']:
         return redirect(auth_data['auth_url'])
     spotify = auth_data['spotify']
+    return redirect(url_for('index'))
 
+@app.route('/playlists')
+def index():
+    global spotify
     if spotify:
         playlists = get_playlists(spotify)
     return render_template('index.html', playlists=playlists)
 
 @app.route('/tracks', methods=['POST'])
 def tracks():
-    auth_data = get_user_spotify()
-    if auth_data['auth_url']:
-        # Redirigir al usuario a Spotify para autenticarse
-        return redirect(auth_data['auth_url'])
-
-    spotify = auth_data['spotify']
-
+    global spotify
     if spotify:
         playlist_id = request.form['list']
         tracks = get_tracks_from_playlist(spotify, playlist_id)
@@ -34,7 +33,7 @@ def tracks():
     else:
         return redirect(url_for('login'))
 
-@app.route('/playlists')
+@app.route('/list-playlists')
 def playlists():
     auth_data = get_user_spotify()
     if auth_data['auth_url']:
