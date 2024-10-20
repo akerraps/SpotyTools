@@ -7,9 +7,19 @@ app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")  # Clave secreta para manejar sesiones
 load_dotenv()
 
-
 @app.route('/')
 def index():
+    auth_data = get_user_spotify()
+    if auth_data['auth_url']:
+        return redirect(auth_data['auth_url'])
+    spotify = auth_data['spotify']
+
+    if spotify:
+        playlists = get_playlists(spotify)
+    return render_template('index.html', playlists=playlists)
+
+@app.route('/tracks', methods=['POST'])
+def tracks():
     auth_data = get_user_spotify()
     if auth_data['auth_url']:
         # Redirigir al usuario a Spotify para autenticarse
@@ -18,7 +28,7 @@ def index():
     spotify = auth_data['spotify']
 
     if spotify:
-        playlist_id = os.getenv('PLAYLIST_ID')  # Obtener el ID de la playlist del entorno
+        playlist_id = request.form['list']
         df = get_tracks_from_playlist(spotify, playlist_id)  # Obtener pistas usando el objeto spotify
         tracks = df.to_dict(orient='records')  # Convertir a diccionario
         return render_template('show_tacks.html', tracks=tracks)

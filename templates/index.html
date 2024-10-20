@@ -7,11 +7,12 @@
 <form action="/tracks" method="POST">
     <label for="dropdown">Select a playlist:</label>
     <select id="dropdown" name="list">
-        {% for opt in playlists %}
-            <option value="{{ opt }}"
-                {% if myValue == opt %}
+        {% for playlist in playlists %}
+            <option value="{{ playlist['playlist_id'] }}"
+                {% if myValue == playlist['playlist_id'] %}
                     selected="selected"
-                {% endif %}>{{ opt }}
+                {% endif %}>
+                {{ playlist['name'] }}
             </option>
         {% endfor %}
     </select>
