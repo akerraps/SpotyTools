@@ -5,8 +5,8 @@ import os
 
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-REDIRECT_URI = "http://localhost:5000/callback"  # Debes configurar esta URI en el Dashboard de Spotify
-SCOPE = "playlist-read-private playlist-read-collaborative"  # Define los permisos que tu app necesita
+REDIRECT_URI = "http://localhost:5000/callback"
+SCOPE = "playlist-read-private playlist-read-collaborative"
 
 
 def create_spotify_oauth():
@@ -62,7 +62,7 @@ def get_playlists (spotify):
     playlist_data=[]
     for item in playlists:
         playlist_info={
-            'playlist_name': item['name'],
+            'name': item['name'],
             'playlist_id':item['id'],
             'track_count':item['tracks']['total']
         }
