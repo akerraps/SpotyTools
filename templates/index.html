@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Choose your Playlist</h1>
+
+<form action="/tracks" method="POST">
+    <label for="dropdown">Select a playlist:</label>
+    <select id="dropdown" name="list">
+        {% for opt in playlists %}
+            <option value="{{ opt }}"
+                {% if myValue == opt %}
+                    selected="selected"
+                {% endif %}>{{ opt }}
+            </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Ok</button>
+</form>
+
+</body>
+</html>
