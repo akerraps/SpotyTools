@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, session, url_for
-from get_api import get_user_spotify, get_tracks_from_playlist, get_playlists  # Importamos la función correcta
+from get_api import get_user_spotify, get_tracks_from_playlist, get_playlists
 from dotenv import load_dotenv
 import os
 
@@ -29,8 +29,7 @@ def tracks():
 
     if spotify:
         playlist_id = request.form['list']
-        df = get_tracks_from_playlist(spotify, playlist_id)  # Obtener pistas usando el objeto spotify
-        tracks = df.to_dict(orient='records')  # Convertir a diccionario
+        tracks = get_tracks_from_playlist(spotify, playlist_id)
         return render_template('show_tacks.html', tracks=tracks)
     else:
         return redirect(url_for('login'))
@@ -58,7 +57,6 @@ def callback():
     code = request.args.get('code')
     token_info = sp_oauth.get_access_token(code)
 
-    # Guardar el token en la sesión
     session['token_info'] = token_info
     return redirect(url_for('index'))
 

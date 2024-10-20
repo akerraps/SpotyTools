@@ -1,6 +1,5 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-import pandas as pd
 import os
 
 CLIENT_ID = os.getenv('CLIENT_ID')
@@ -51,9 +50,7 @@ def get_tracks_from_playlist(spotify, playlist_id):
             'duration': track['duration_ms']
         }
         track_data.append(track_info)
-
-    df = pd.DataFrame(track_data)
-    return df
+    return track_data
 
 def get_playlists (spotify):
     playlist_general_info = spotify.current_user_playlists()
