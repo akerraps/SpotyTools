@@ -19,19 +19,26 @@ def login():
 @app.route('/playlists')
 def index():
     global spotify
-    if spotify:
-        playlists = get_playlists(spotify)
+
+    if 'spotify' not in globals() or spotify is None:
+        print('Spotify client no está definido, redirigiendo al login')
+        return redirect(url_for('login'))
+
+    playlists = get_playlists(spotify)
     return render_template('index.html', playlists=playlists)
 
 @app.route('/tracks', methods=['POST'])
 def tracks():
     global spotify
-    if spotify:
-        playlist_id = request.form['list']
-        tracks = get_tracks_from_playlist(spotify, playlist_id)
-        return render_template('show_tacks.html', tracks=tracks)
-    else:
+
+    if 'spotify' not in globals() or spotify is None:
+        print('Spotify client no está definido, redirigiendo al login')
         return redirect(url_for('login'))
+
+    playlist_id = request.form['list']
+    tracks = get_tracks_from_playlist(spotify, playlist_id)
+    return render_template('show_tacks.html', tracks=tracks)
+
 
 @app.route('/list-playlists')
 def playlists():
