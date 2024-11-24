@@ -1,0 +1,10 @@
+services:
+  web:
+    image: akerraps/spotytools:<version>
+    ports:
+      - "5000:5000"
+    environment:
+      - CLIENT_ID=your-id
+      - CLIENT_SECRET=your-secret
+      - OUTPUT=your-path
+      - SECRET_KEY=your-key
